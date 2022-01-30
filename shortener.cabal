@@ -14,7 +14,8 @@ library
   hs-source-dirs: src
   exposed-modules: Shortener
   build-depends:
-      scotty >= 0.12
+      scotty ^>= 0.12
+      blaze-html ^>= 0.9.1
 
 executable shortener
   import: common
