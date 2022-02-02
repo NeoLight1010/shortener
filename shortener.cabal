@@ -14,8 +14,10 @@ library
   hs-source-dirs: src
   exposed-modules: Shortener
   build-depends:
+      blaze-html ^>= 0.9.1,
+      containers,
       scotty ^>= 0.12,
-      blaze-html ^>= 0.9.1
+      text
 
 executable shortener
   import: common
