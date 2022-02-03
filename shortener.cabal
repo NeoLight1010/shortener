@@ -33,7 +33,6 @@ library
   build-depends:
       base >=4.7 && <5
     , beam-core
-    , beam-postgres
     , blaze-html
     , containers
     , http-types
@@ -51,7 +50,6 @@ executable shortener-exe
   build-depends:
       base >=4.7 && <5
     , beam-core
-    , beam-postgres
     , blaze-html
     , containers
     , http-types
@@ -71,7 +69,6 @@ test-suite shortener-test
   build-depends:
       base >=4.7 && <5
     , beam-core
-    , beam-postgres
     , blaze-html
     , containers
     , http-types
