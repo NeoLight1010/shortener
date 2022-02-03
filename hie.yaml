@@ -1,0 +1,13 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "shortener:lib"
+
+    - path: "./app/Main.hs"
+      component: "shortener:exe:shortener-exe"
+
+    - path: "./app/Paths_shortener.hs"
+      component: "shortener:exe:shortener-exe"
+
+    - path: "./test"
+      component: "shortener:test:shortener-test"

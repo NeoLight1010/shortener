@@ -1,4 +1,7 @@
-# create by https://github.com/iamcco/coc-gitignore (Sat Jan 29 2022 22:41:27 GMT-0500 (Ecuador Time))
+.stack-work/
+*~
+
+# created by https://github.com/iamcco/coc-gitignore (Thu Feb 03 2022 11:23:55 GMT-0500 (Ecuador Time))
 # Haskell.gitignore:
 dist
 dist-*
