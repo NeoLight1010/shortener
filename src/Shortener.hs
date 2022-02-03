@@ -6,17 +6,19 @@ import Web.Scotty
 import Text.Blaze.Html.Renderer.Text (renderHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Text.Blaze.Html5 ((!))
 import Data.IORef (newIORef, modifyIORef', readIORef)
-import Data.Map (Map, empty, insert, toList)
+import qualified Data.Map as M
 import Data.Text (Text)
+import qualified Data.Text.Lazy as LT
 import Control.Monad.IO.Class (MonadIO(liftIO))
 import Data.Foldable (for_)
+import Network.HTTP.Types.Status (status404)
 
 shortener :: IO ()
 shortener = do
-  urlsRef <- newIORef (1 :: Int, empty :: Map Int Text)
+  urlsRef <- newIORef (1 :: Int, M.empty :: M.Map Int Text)
   scotty 3000 $ do
+    -- Index page.
     get "/" $ do
       (_, urls) <- liftIO $ readIORef urlsRef
       html $ renderHtml $
@@ -24,17 +26,28 @@ shortener = do
           H.head $
             H.title "Shortener"
           H.body $ do
-            H.form ! A.method "post" ! A.action "/" $ do
-              H.input ! A.type_ "text" ! A.name "url"
-              H.input ! A.type_ "submit" ! A.value "Submit"
+            H.form H.! A.method "post" H.! A.action "/" $ do
+              H.input H.! A.type_ "text" H.! A.name "url"
+              H.input H.! A.type_ "submit" H.! A.value "Submit"
           H.table $ do
-            for_ (toList urls) $ \(i, url) ->
+            for_ (M.toList urls) $ \(i, url) ->
               H.tr $ do
                 H.td (H.toHtml i)
                 H.td (H.toHtml url)
+
+    -- Shorten url from post request.
     post "/" $ do
       url <- param "url"
       liftIO $ modifyIORef' urlsRef $
         \(i, urls) ->
-          (i + 1, insert i url urls)
+          (i + 1, M.insert i url urls)
       redirect "/"
+
+    -- Redirect to shortened url
+    get "/:shortened" $ do
+      (_, urls) <- liftIO $ readIORef urlsRef
+      shortened <- param "shortened"
+      case M.lookup shortened urls of
+        Just u -> redirect $ LT.fromStrict u
+        Nothing -> raiseStatus status404 "Shortened url not found."
+
