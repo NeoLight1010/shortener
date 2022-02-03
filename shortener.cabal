@@ -32,6 +32,8 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , beam-core
+    , beam-postgres
     , blaze-html
     , containers
     , http-types
@@ -48,6 +50,8 @@ executable shortener-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , beam-core
+    , beam-postgres
     , blaze-html
     , containers
     , http-types
@@ -66,6 +70,8 @@ test-suite shortener-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
+    , beam-core
+    , beam-postgres
     , blaze-html
     , containers
     , http-types
